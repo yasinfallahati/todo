@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کارهای روزمره و اهداف</title>
+    <!-- Tailwind CSS برای دیزاین حرفه‌ای -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js برای نمودار پیشرفت -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- فونت Vazirmatn برای زیبایی متن‌های فارسی -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- هدر سایت و تاریخ -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-gray-800 pb-6 gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-indigo-400 mb-2">داشبورد مدیریت اهداف و کارها</h1>
+                <p class="text-gray-400">برنامه‌ریزی کن، اقدام کن و پیشرفتت رو تماشا کن.</p>
+            </div>
+            <div class="bg-gray-800 px-5 py-3 rounded-2xl border border-gray-700 text-center shadow-lg">
+                <span class="text-xs text-indigo-400 block mb-1 font-bold">تاریخ امروز</span>
+                <span id="current-date" class="text-lg font-bold text-white"></span>
+            </div>
+        </header>
+
+        <!-- شبکه اصلی (Grid) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- ستون سمت راست: ثبت هدف و نمودار پیشرفت -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- بخش هدف اصلی -->
+                <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                    <h2 class="text-xl font-bold mb-4 text-white flex items-center gap-2">
+                        🎯 <span class="text-indigo-400">هدف بازه زمانی شما</span>
+                    </h2>
+                    <div id="goal-display-container" class="hidden mb-4 p-3 bg-gray-750 rounded-xl border border-indigo-900/50 bg-indigo-950/20">
+                        <p id="goal-text" class="text-white font-medium text-center text-lg"></p>
+                        <button onclick="editGoal()" class="text-xs text-indigo-400 hover:underline block mx-auto mt-2">تغییر هدف</button>
+                    </div>
+                    <div id="goal-input-container" class="flex gap-2">
+                        <input type="text" id="goal-input" placeholder="مثلاً: کاهش وزن، یادگیری پایتون..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+                        <button onclick="saveGoal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-indigo-600/20">ثبت</button>
+                    </div>
+                </div>
+
+                <!-- بخش نمودار پیشرفت کارهای امروز -->
+                <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl flex flex-col items-center">
+                    <h2 class="text-xl font-bold mb-2 text-white w-full text-right">📊 میزان پیشرفت امروز</h2>
+                    <p class="text-xs text-gray-400 mb-6 w-full text-right">با زدن تیک کارها، نمودار کامل‌تر می‌شود.</p>
+                    <div class="relative w-48 h-48">
+                        <canvas id="progressChart"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <span id="chart-percentage" class="text-3xl font-black text-white">0%</span>
+                            <span class="text-xs text-gray-400 mt-1">انجام شده</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ستون سمت چپ: کارها و قرار ملاقات‌ها -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- بخش کارهای امروز -->
+                <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                    <h2 class="text-xl font-bold mb-4 text-white flex items-center gap-2">
+                        ✅ <span class="text-emerald-400">کارهای امروز</span>
+                    </h2>
+                    
+                    <!-- فرم افزودن کار -->
+                    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-2 mb-3">
+                        <input type="text" id="task-input" placeholder="عنوان کار جدید..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+                        <input type="time" id="task-due" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors text-center" title="زمان سررسید">
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-6">
+                        <select id="task-priority" class="w-full sm:w-2/3 bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="medium">اولویت متوسط</option>
+                            <option value="high">اولویت بالا</option>
+                            <option value="low">اولویت کم</option>
+                        </select>
+                        <button onclick="addTask()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-emerald-600/20">افزودن کار</button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 text-sm text-gray-400">
+                        <span id="task-summary">0 کار کل · 0 انجام شده · 0 اولویت بالا · 0 با زمان</span>
+                        <button onclick="clearCompletedTasks()" class="text-amber-300 hover:text-amber-100 underline">حذف کارهای انجام‌شده</button>
+                    </div>
+                    <div id="motivation-tip" class="text-xs text-gray-400 mb-4">برای پیشرفت بهتر، کارها را اولویت‌بندی کن و زمان‌بندی مشخصی داشته باش.</div>
+
+                    <!-- لیست کارها -->
+                    <ul id="tasks-list" class="space-y-3 max-h-[250px] overflow-y-auto pr-1">
+                        <!-- کارها به صورت دینامیک اینجا اضافه می‌شوند -->
+                    </ul>
+                    <div id="no-tasks-msg" class="text-center py-6 text-gray-500 text-sm">هنوز کاری برای امروز اضافه نکرده‌اید.</div>
+                </div>
+
+                <!-- بخش قرارهای ملاقات -->
+                <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                    <h2 class="text-xl font-bold mb-4 text-white flex items-center gap-2">
+                        📅 <span class="text-amber-400">قرارهای ملاقات و جلسات</span>
+                    </h2>
+
+                    <!-- فرم افزودن قرار -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-6">
+                        <input type="text" id="appointment-input" placeholder="موضوع قرار (مثلاً: جلسه با استاد)" class="md:col-span-1.5 bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 transition-colors">
+                        <input type="time" id="appointment-time" class="bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 transition-colors text-center">
+                        <button onclick="addAppointment()" class="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-amber-600/20">ثبت قرار</button>
+                    </div>
+
+                    <!-- لیست قرارها -->
+                    <ul id="appointments-list" class="space-y-3 max-h-[200px] overflow-y-auto pr-1">
+                        <!-- قرارها اینجا اضافه می‌شوند -->
+                    </ul>
+                    <div id="no-appointments-msg" class="text-center py-4 text-gray-500 text-sm">هیچ قراری برای امروز ست نشده است.</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- منطق و کدهای جاوااسکریپت برنامه -->
+    <script>
+        // آرایه‌ها برای ذخیره داده‌ها
+        let tasks = [];
+        let appointments = [];
+        let progressChart;
+        const STORAGE_KEY = 'todoAppData_v1';
+
+        // نمایش تاریخ روز (میلادی به شمسی تبدیل ساده یا فرمت محلی)
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('fa-IR', options);
+
+        function saveData() {
+            try {
+                const data = {
+                    tasks,
+                    appointments,
+                    goal: document.getElementById('goal-text').innerText || ''
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (error) {
+                console.warn('localStorage در دسترس نیست یا خطایی رخ داده است:', error);
+            }
+        }
+
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) return;
+                const data = JSON.parse(saved);
+                tasks = Array.isArray(data.tasks) ? data.tasks : [];
+                appointments = Array.isArray(data.appointments) ? data.appointments : [];
+
+                if (data.goal) {
+                    document.getElementById('goal-text').innerText = data.goal;
+                    document.getElementById('goal-input-container').classList.add('hidden');
+                    document.getElementById('goal-display-container').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.warn('خطا در بارگذاری حافظه محلی:', error);
+            }
+        }
+
+        // راه‌اندازی اولیه نمودار Chart.js
+        function initChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            progressChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [0, 100], // [مقدار انجام شده, مقدار باقی‌مانده]
+                        backgroundColor: ['#10B981', '#374151'], // سبز زنده و خاکستری تیره
+                        borderWidth: 0,
+                        borderAlign: 'center'
+                    }]
+                },
+                options: {
+                    cutout: '80%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { tooltip: { enabled: false } }
+                }
+            });
+        }
+
+        // بروزرسانی نمودار بر اساس کارهای تیک‌خورده
+        function updateProgress() {
+            const totalTasks = tasks.length;
+            const completedTasks = tasks.filter(t => t.completed).length;
+            let percentage = 0;
+
+            if (totalTasks > 0) {
+                percentage = Math.round((completedTasks / totalTasks) * 100);
+            }
+
+            // آپدیت متن وسط نمودار
+            document.getElementById('chart-percentage').innerText = `${percentage}%`;
+
+            // آپدیت دیتای نمودار
+            progressChart.data.datasets[0].data = [percentage, 100 - percentage];
+            progressChart.update();
+        }
+
+        // مدیریت هدف
+        function saveGoal() {
+            const input = document.getElementById('goal-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            document.getElementById('goal-text').innerText = val;
+            document.getElementById('goal-input-container').classList.add('hidden');
+            document.getElementById('goal-display-container').classList.remove('hidden');
+            saveData();
+        }
+
+        function editGoal() {
+            document.getElementById('goal-input-container').classList.remove('hidden');
+            document.getElementById('goal-display-container').classList.add('hidden');
+        }
+
+        // مدیریت کارهای روزمره
+        function getPriorityLabel(priority) {
+            return priority === 'high' ? 'فوری' : priority === 'low' ? 'کم' : 'متوسط';
+        }
+
+        function getPriorityClasses(priority) {
+            if (priority === 'high') return 'bg-red-500 text-white';
+            if (priority === 'low') return 'bg-emerald-500 text-slate-950';
+            return 'bg-amber-500 text-slate-950';
+        }
+
+        function getSortedTasks() {
+            return [...tasks].sort((a, b) => {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                const weight = { high: 1, medium: 2, low: 3 };
+                if (weight[a.priority] !== weight[b.priority]) return weight[a.priority] - weight[b.priority];
+                if (a.due && b.due) return a.due.localeCompare(b.due);
+                if (a.due) return -1;
+                if (b.due) return 1;
+                return 0;
+            });
+        }
+
+        function updateTaskSummary() {
+            const totalTasks = tasks.length;
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const highPriority = tasks.filter(t => t.priority === 'high').length;
+            const dueTasks = tasks.filter(t => t.due && !t.completed).length;
+            document.getElementById('task-summary').innerText = `${totalTasks} کار کل · ${completedTasks} انجام شده · ${highPriority} اولویت بالا · ${dueTasks} با زمان`;
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('tasks-list');
+            const noMsg = document.getElementById('no-tasks-msg');
+            list.innerHTML = '';
+            const sortedTasks = getSortedTasks();
+
+            if (sortedTasks.length === 0) {
+                noMsg.classList.remove('hidden');
+            } else {
+                noMsg.classList.add('hidden');
+                sortedTasks.forEach((task, index) => {
+                    const li = document.createElement('li');
+                    li.className = `flex flex-col gap-3 p-3 rounded-xl transition-all ${task.completed ? 'bg-gray-850 opacity-60 line-through text-gray-500' : 'bg-gray-750 border border-gray-700 hover:border-gray-600'}`;
+
+                    li.innerHTML = `
+                        <div class="flex items-center justify-between gap-3 w-full">
+                            <div class="flex items-center gap-3 cursor-pointer" onclick="toggleTask(${index})">
+                                <input type="checkbox" ${task.completed ? 'checked' : ''} class="w-5 h-5 rounded-md text-emerald-600 bg-gray-900 border-gray-700 focus:ring-emerald-500 focus:ring-offset-gray-900">
+                                <span class="text-sm font-medium">${task.text}</span>
+                            </div>
+                            <button onclick="deleteTask(${index})" class="text-gray-500 hover:text-red-400 transition-colors p-1 text-xs">حذف</button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 text-xs">
+                            <span class="px-2 py-1 rounded-full ${getPriorityClasses(task.priority)} font-bold">${getPriorityLabel(task.priority)}</span>
+                            ${task.due ? `<span class="px-2 py-1 rounded-full bg-slate-900 text-slate-300">تا ${task.due}</span>` : ''}
+                        </div>
+                    `;
+                    list.appendChild(li);
+                });
+            }
+            updateProgress();
+            updateTaskSummary();
+        }
+
+        function addTask() {
+            const input = document.getElementById('task-input');
+            const dueInput = document.getElementById('task-due');
+            const priorityInput = document.getElementById('task-priority');
+            const text = input.value.trim();
+            const due = dueInput.value;
+            const priority = priorityInput.value;
+            if (!text) return;
+
+            tasks.push({ text: text, completed: false, priority: priority || 'medium', due: due || '' });
+            input.value = '';
+            dueInput.value = '';
+            priorityInput.value = 'medium';
+            renderTasks();
+            saveData();
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            renderTasks();
+            saveData();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+            saveData();
+        }
+
+        function clearCompletedTasks() {
+            tasks = tasks.filter(t => !t.completed);
+            renderTasks();
+            saveData();
+        }
+
+        // مدیریت قرارهای ملاقات
+        function renderAppointments() {
+            const list = document.getElementById('appointments-list');
+            const noMsg = document.getElementById('no-appointments-msg');
+            list.innerHTML = '';
+
+            if (appointments.length === 0) {
+                noMsg.classList.remove('hidden');
+            } else {
+                noMsg.classList.add('hidden');
+                appointments.forEach((app, index) => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-center justify-between p-3 rounded-xl bg-gray-750 border border-amber-900/30 bg-amber-950/5";
+                    
+                    li.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <span class="bg-amber-500/20 text-amber-400 px-2 py-1 rounded-lg text-xs font-bold font-mono">${app.time}</span>
+                            <span class="text-sm text-gray-200">${app.text}</span>
+                        </div>
+                        <button onclick="deleteAppointment(${index})" class="text-gray-500 hover:text-red-400 transition-colors text-xs">حذف</button>
+                    `;
+                    list.appendChild(li);
+                });
+            }
+        }
+
+        function addAppointment() {
+            const input = document.getElementById('appointment-input');
+            const timeInput = document.getElementById('appointment-time');
+            
+            const text = input.value.trim();
+            const time = timeInput.value;
+
+            if (!text || !time) {
+                alert('لطفاً هم موضوع قرار و هم زمان آن را مشخص کنید.');
+                return;
+            }
+
+            // تبدیل ساعت به فرمت زیباتر برای فونت فارسی
+            const formattedTime = time;
+
+            appointments.push({ text, time: formattedTime });
+            // مرتب‌سازی قرارها بر اساس ساعت
+            appointments.sort((a, b) => a.time.localeCompare(b.time));
+
+            input.value = '';
+            timeInput.value = '';
+            renderAppointments();
+            saveData();
+        }
+
+        function deleteAppointment(index) {
+            appointments.splice(index, 1);
+            renderAppointments();
+            saveData();
+        }
+
+        // لود شدن اولیه برنامه
+        window.onload = function() {
+            loadData();
+            initChart();
+            renderTasks();
+            renderAppointments();
+        };
+    </script>
+</body>
+</html>
