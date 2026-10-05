@@ -1,141 +1,71 @@
-# 📋 داشبورد مدیریت اهداف و کارهای روزمره
+<div align="center">
 
-یک برنامه مدرن و زیبا برای مدیریت کارهای روزانه، ثبت اهداف و برنامه‌ریزی جلسات که کاملاً با HTML، Tailwind CSS و JavaScript ساخته شده است.
+<img src="./assets/banner.svg" alt="Todo Dashboard" width="100%" />
 
----
+</div>
 
-## ✨ امکانات
+# Todo Dashboard
 
-### 🎯 مدیریت هدف
-- ثبت هدف اصلی
-- ویرایش هدف در هر زمان
-- ذخیره خودکار اطلاعات
-
-### ✅ مدیریت کارهای روزانه
-- افزودن کار جدید
-- علامت‌گذاری کارهای انجام شده
-- حذف کارها
-- نمایش لیست کارها
-
-### 📊 نمودار پیشرفت
-- نمایش درصد انجام کارها
-- بروزرسانی لحظه‌ای
-- طراحی با Chart.js
-
-### 📅 مدیریت قرارهای ملاقات
-- ثبت موضوع جلسه
-- تعیین ساعت جلسه
-- مرتب‌سازی خودکار بر اساس زمان
-- حذف قرارها
-
-### 💾 ذخیره اطلاعات
-تمام اطلاعات به صورت خودکار داخل مرورگر (LocalStorage) ذخیره می‌شوند و بعد از بستن صفحه از بین نمی‌روند.
+Modern browser dashboard for goals, daily tasks, progress chart, and meeting slots — HTML, Tailwind CSS, JavaScript.
 
 ---
 
-# 🛠️ تکنولوژی‌های استفاده شده
+## English
 
-- HTML5
-- CSS3
-- Tailwind CSS
-- JavaScript (Vanilla JS)
-- Chart.js
-- Vazirmatn Font
 
----
 
-# 📸 امکانات رابط کاربری
+### Features
 
-- 🌙 طراحی Dark Mode
-- 📱 کاملاً واکنش‌گرا (Responsive)
-- ⚡ سرعت بسیار بالا
-- 🎨 رابط کاربری مدرن
-- 📊 نمودار پیشرفت دایره‌ای
-- 🗓️ نمایش تاریخ روز
-- 💎 طراحی مینیمال
+- Set and edit a main goal
+- Add / complete / delete daily tasks
+- Live progress chart (Chart.js)
+- Meeting list sorted by time
+- Persists in `localStorage`
 
----
+### Stack
 
-# 📂 ساختار پروژه
+HTML · Tailwind CSS · JavaScript · Chart.js
 
-```
-📁 Project
-│
-├── index.html
-├── README.md
+### Getting started
+
+```bash
+git clone https://github.com/yasinfallahati/todo.git
+cd todo
+# open index.html in a browser, or:
+python3 -m http.server 8000
 ```
 
 ---
 
-# 🚀 نحوه اجرا
+## فارسی
 
-کافی است فایل
+### داشبورد Todo
 
+داشبورد مرورگری برای اهداف، کارهای روزانه، نمودار پیشرفت و جلسات — HTML، Tailwind و JavaScript.
+
+
+
+### امکانات
+
+- ثبت و ویرایش هدف اصلی
+- افزودن / انجام / حذف کارهای روزانه
+- نمودار پیشرفت لحظه‌ای (Chart.js)
+- لیست جلسات مرتب‌شده بر اساس زمان
+- ذخیره در `localStorage`
+
+### تکنولوژی‌ها
+
+HTML · Tailwind CSS · JavaScript · Chart.js
+
+### شروع کار
+
+```bash
+git clone https://github.com/yasinfallahati/todo.git
+cd todo
+python3 -m http.server 8000
 ```
-index.html
-```
-
-را داخل مرورگر باز کنید.
-
-نیازی به نصب هیچ پکیج یا سرور نیست.
+سپس `index.html` را باز کنید.
 
 ---
 
-# 📷 قابلیت‌ها
-
-✅ ثبت هدف
-
-✅ مدیریت کارهای روزانه
-
-✅ نمودار پیشرفت
-
-✅ مدیریت جلسات
-
-✅ ذخیره اطلاعات
-
-✅ رابط کاربری مدرن
-
----
-
-# 📈 نسخه آینده
-
-برخی قابلیت‌هایی که می‌توان به پروژه اضافه کرد:
-
-- ورود و ثبت‌نام کاربران
-- همگام‌سازی با Cloud
-- یادآوری اعلان‌ها
-- تقویم شمسی حرفه‌ای
-- دسته‌بندی کارها
-- اولویت‌بندی کارها
-- جستجوی کارها
-- حالت روشن (Light Mode)
-- Drag & Drop برای جابه‌جایی کارها
-- نسخه PWA
-- اتصال به دیتابیس
-
----
-
-# 🤝 مشارکت
-
-اگر پیشنهادی برای بهبود پروژه دارید خوشحال می‌شوم Pull Request ارسال کنید یا Issue جدید ثبت کنید.
-
----
-
-# ⭐ حمایت
-
-اگر این پروژه برایتان مفید بود، لطفاً به آن یک **Star ⭐** بدهید.
-
----
-
-## 👨‍💻 توسعه‌دهنده
-
-**Yasin Fallahati**
-
-GitHub:
-https://github.com/yasinfallahati
-
----
-
-## 📄 License
-
-این پروژه تحت مجوز MIT منتشر شده است و استفاده، ویرایش و توسعه آن آزاد است.
+`#todo` `#dashboard` `#javascript` `#tailwindcss` `#chartjs` `#localstorage`
