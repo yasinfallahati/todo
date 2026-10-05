@@ -1,54 +1,141 @@
-# Todo Dashboard
-### Plan → act → watch the chart move
+# 📋 داشبورد مدیریت اهداف و کارهای روزمره
 
-<p align="center"><img src="assets/hero.png" width="100%" alt="Todo hero"></p>
-<p align="center"><img src="assets/screenshot.png" width="100%" alt="Todo dashboard screenshot"></p>
-
-<p align="center">
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img src="https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white">
-<img src="https://img.shields.io/badge/localStorage-0F172A?style=for-the-badge">
-</p>
-
-Single-file **Persian RTL** productivity board — no build step, no backend. Goals, daily tasks with priority/category/time, streak counter, progress %, and meeting slots. Everything persists in `localStorage`.
-
-## Open it
-
-```bash
-# just open in a browser
-xdg-open index.html   # or double-click
-# optional static server:
-python3 -m http.server 8080 --directory .
-```
-
-## Surface map
-
-| Zone | Job |
-|------|-----|
-| Today’s tasks | Add / filter / search / JSON import-export |
-| Goal card | Time-bound objective |
-| Streak | Consecutive active days |
-| Progress | Chart.js-backed completion rate |
-| Meetings | Slot planner alongside the day |
-
-Dark theme + Vazirmatn. Designed for operators who want a dashboard that works offline on day one.
+یک برنامه مدرن و زیبا برای مدیریت کارهای روزانه، ثبت اهداف و برنامه‌ریزی جلسات که کاملاً با HTML، Tailwind CSS و JavaScript ساخته شده است.
 
 ---
 
-## فارسی — داشبورد Todo
+## ✨ امکانات
 
-یک **داشبورد مدیریت اهداف و کارهای روزانه** کاملاً سمت‌کلاینت: کارهای امروز با اولویت و دسته و ساعت، هدف بازه‌ای، روزهای پیاپی، درصد پیشرفت با Chart.js، و جایگاه جلسات. داده در `localStorage` می‌ماند — بدون سرور و بدون بیلد.
+### 🎯 مدیریت هدف
+- ثبت هدف اصلی
+- ویرایش هدف در هر زمان
+- ذخیره خودکار اطلاعات
 
-### اجرا
+### ✅ مدیریت کارهای روزانه
+- افزودن کار جدید
+- علامت‌گذاری کارهای انجام شده
+- حذف کارها
+- نمایش لیست کارها
 
-فایل `index.html` را در مرورگر باز کنید (یا با یک سرور استاتیک ساده سرو کنید).
+### 📊 نمودار پیشرفت
+- نمایش درصد انجام کارها
+- بروزرسانی لحظه‌ای
+- طراحی با Chart.js
 
-### چرا این شکل؟
+### 📅 مدیریت قرارهای ملاقات
+- ثبت موضوع جلسه
+- تعیین ساعت جلسه
+- مرتب‌سازی خودکار بر اساس زمان
+- حذف قرارها
 
-- فارسی و RTL از روز اول (فونت وزیرمتن)
-- خروجی/ورود JSON برای پشتیبان‌گیری
-- ظاهر مدرن تیره مناسب دموی محصول و استفاده شخصی
+### 💾 ذخیره اطلاعات
+تمام اطلاعات به صورت خودکار داخل مرورگر (LocalStorage) ذخیره می‌شوند و بعد از بستن صفحه از بین نمی‌روند.
 
-هیچ حساب کاربری و هیچ APIی لازم نیست؛ همان چیزی است که روی لپ‌تاپ تعمیرگاه یا میز کار دانشجویی باید فوری بالا بیاید.
+---
+
+# 🛠️ تکنولوژی‌های استفاده شده
+
+- HTML5
+- CSS3
+- Tailwind CSS
+- JavaScript (Vanilla JS)
+- Chart.js
+- Vazirmatn Font
+
+---
+
+# 📸 امکانات رابط کاربری
+
+- 🌙 طراحی Dark Mode
+- 📱 کاملاً واکنش‌گرا (Responsive)
+- ⚡ سرعت بسیار بالا
+- 🎨 رابط کاربری مدرن
+- 📊 نمودار پیشرفت دایره‌ای
+- 🗓️ نمایش تاریخ روز
+- 💎 طراحی مینیمال
+
+---
+
+# 📂 ساختار پروژه
+
+```
+📁 Project
+│
+├── index.html
+├── README.md
+```
+
+---
+
+# 🚀 نحوه اجرا
+
+کافی است فایل
+
+```
+index.html
+```
+
+را داخل مرورگر باز کنید.
+
+نیازی به نصب هیچ پکیج یا سرور نیست.
+
+---
+
+# 📷 قابلیت‌ها
+
+✅ ثبت هدف
+
+✅ مدیریت کارهای روزانه
+
+✅ نمودار پیشرفت
+
+✅ مدیریت جلسات
+
+✅ ذخیره اطلاعات
+
+✅ رابط کاربری مدرن
+
+---
+
+# 📈 نسخه آینده
+
+برخی قابلیت‌هایی که می‌توان به پروژه اضافه کرد:
+
+- ورود و ثبت‌نام کاربران
+- همگام‌سازی با Cloud
+- یادآوری اعلان‌ها
+- تقویم شمسی حرفه‌ای
+- دسته‌بندی کارها
+- اولویت‌بندی کارها
+- جستجوی کارها
+- حالت روشن (Light Mode)
+- Drag & Drop برای جابه‌جایی کارها
+- نسخه PWA
+- اتصال به دیتابیس
+
+---
+
+# 🤝 مشارکت
+
+اگر پیشنهادی برای بهبود پروژه دارید خوشحال می‌شوم Pull Request ارسال کنید یا Issue جدید ثبت کنید.
+
+---
+
+# ⭐ حمایت
+
+اگر این پروژه برایتان مفید بود، لطفاً به آن یک **Star ⭐** بدهید.
+
+---
+
+## 👨‍💻 توسعه‌دهنده
+
+**Yasin Fallahati**
+
+GitHub:
+https://github.com/yasinfallahati
+
+---
+
+## 📄 License
+
+این پروژه تحت مجوز MIT منتشر شده است و استفاده، ویرایش و توسعه آن آزاد است.
